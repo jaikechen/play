@@ -1,8 +1,8 @@
 # Purpose
 Some thoughts on typescirpt/javascript
 
-# weakset and weakmap
-## a mistake
+# weakset 
+## a misunderstanding
 In a video teaching weakset and weakmap, the teacher gave an example
 ```
 export function testWeakSet() {
