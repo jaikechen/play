@@ -5,7 +5,7 @@ interface foo {
 
 
 const createOjbect = <T>(t:T) =>{
-    const keys = 
+  //  const keys = 
 
 
 }
