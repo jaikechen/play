@@ -5,10 +5,8 @@ import { test } from './test/testDecorator';
 import { testThis1 } from './test/testThis';
 import { TestModule } from './test/testModule';
 import { inspect } from 'util';
-import { testWeekSet } from './test/weekSet';
-import { testDate1 } from './test/testRefrence';
-//testString()
-testDate1()
+import { testWeakSet, inspectWeakSet } from './test/weakSet';
+inspectWeakSet()
 /*
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
