@@ -15,7 +15,7 @@ let a = 'somestring'  // a refrence to a string const
 let b = a              // b also refence to the string const 'somestring'
 b = 'something else'   // b refrence to another string const 'something else'
 ```
-so no way, a will be effect. I did a test, add console.log(a) before b='something else' and after b='something else', of course, the console print 'somestring' for both case. then I left a comments to the teacher. he replied, strign is primitive, so a won't change. 
+so no way a could be changed as well. I did a test, add console.log(a) before b='something else' and after b='something else', of course, the console print 'somestring' for both case. then I left a comments to the teacher. he replied, strign is primitive, so a won't change. 
 
 I wrote another piece of code, of couse, the too line console.log print same value.
 ```
