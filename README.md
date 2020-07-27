@@ -34,8 +34,8 @@ export function testDate1(){
     let a = new Date()
     let b = a
     console.log(a.getTime())
-    b.setDate(a.getDate() + 1)
+    b.setDate(b.getDate() + 1)
     console.log(a.getTime())
 }
 ```
-
+here the two console.log print diffrent things.
