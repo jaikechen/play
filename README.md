@@ -20,9 +20,9 @@ WeakSet { [items unknown] }
 WeakSet { [items unknown] }
 WeakSet { [items unknown] }
 so the teach assumed
-the first console.log: the weakset is empty
-the second console.log: the weakset has 1 element
-the third console.log: the weakset is empty again.
+- the first console.log: the weakset is empty
+- the second console.log: the weakset has 1 element
+- the third console.log: the weakset is empty again.
 
 that was against my instinct, in old c++ days, 
 ```
@@ -31,7 +31,7 @@ f = null;
 delete f;
 ```
 f = null and delete f are totally diffrent things.
-the for C# or Java, we have no way of deleting an object(free the memory), so I think when we set obj = null, we does not remove obj from weakset. with the help of inspect, I changed the code to
+then for C# or Java, we have no way of deleting an object(free the memory), so I think when we set obj = null, we does not remove obj from weakset. with the help of inspect, I changed the code to
 ```
 export function inspectWeakSet() {
 	let obj = {}
@@ -45,13 +45,13 @@ export function inspectWeakSet() {
 
 ```
 As I expected, set obj = null, will not remove item from weakset
-before add:WeakSet {  }
-after add:WeakSet { {} }
-after set null: WeakSet { {} }
+- before add:WeakSet {  }
+- after add:WeakSet { {} }
+- after set null: WeakSet { {} }
 
 so it is a common mistake, refrencing to nothing, doesn't mean delete an object.
-we never know and can not take control of  when the system decide an object should be remove from the system.
-The fact we don't need / can't delete an object is the reason Java replace c++ , we don't need to manually manage memory.
+we never know and can not take control of  when the system decide an object should be deleted.
+The fact we need not to / can't delete an object is the reason Java replace c++ , we don't need to manually manage memory.
 ## a usecase of weakset
 the following example was given by https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakSet
 we use weakset instead of set, because we don't want change system's garbage collection machanism.
