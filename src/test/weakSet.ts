@@ -20,7 +20,6 @@ export function inspectWeakSet() {
 	console.log('after set null: ' +inspect(weakSet, { showHidden: true }));
 }
 
-export function 
 
 /*
 // Execute a callback on everything stored inside an object

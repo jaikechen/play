@@ -6,7 +6,10 @@ import { testThis1 } from './test/testThis';
 import { TestModule } from './test/testModule';
 import { inspect } from 'util';
 import { testWeakSet, inspectWeakSet } from './test/weakSet';
-inspectWeakSet()
+import { displayCarByInterface, displayCarWithClass, displayCarWithClassContructor } from './test/initClassWithDefaultvalue';
+displayCarWithClassContructor()
+//displayCarByInterface()
+//displayCarWithClass()
 /*
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
