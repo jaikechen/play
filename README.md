@@ -1,6 +1,100 @@
 
 Some thoughts/best practice/pattern on typescirpt/javascript
 
+# Class VS Function
+
+when I was researching how to use adal to get a oauth token, then use the token to access dynamics CRM records, I got the following code from internet.
+```
+import * as adal from 'adal-node';
+import * as DynamicsWebApi from "dynamics-web-api";
+
+export class DynamicsConnector {
+    authorityUrl: string;
+    resource: string;
+    clientId: string;
+    secrect: string;
+    adalContext: adal.AuthenticationContext;
+    apiUrl: string;
+    dynamicsWebApi: any;
+    constructor(tenantId: string, resource: string, clientId: string, secret: string) {
+        this.authorityUrl = `https://login.microsoftonline.com/${tenantId}/oauth2/token`;
+        this.resource = `https://${resource}/`;
+        this.apiUrl = resource;
+        this.clientId = clientId;
+        this.secrect = secret
+        //create DynamicsWebApi object
+        this.dynamicsWebApi = new DynamicsWebApi({
+            webApiUrl: `https://${this.apiUrl}/api/data/v9.0/`,
+            onTokenRefresh: this.acquireTokens
+        });
+        this.adalContext = new adal.AuthenticationContext(this.authorityUrl);
+    }
+
+
+    public acquireTokens = (dynamicsCallback: any) => {
+        const adalCallback = (error: any, token: any) => {
+            if (!error) {
+                //call DynamicsWebApi callback only when a token has been retrieved
+                dynamicsCallback(token);
+            }
+            else {
+                console.log('Token has not been retrieved. Error: ' + error.stack);
+            }
+        }
+        this.adalContext.acquireTokenWithClientCredentials(this.resource, this.clientId, this.secrect, adalCallback)
+    }
+}
+```
+it worked when I use the following code to test it. 
+```
+async function testClass(){
+    const api = new DynamicsConnector('','','','').dynamicsWebApi
+    const records = await api.retrieveMultiple("leads", ["fullname", "subject"], "statecode eq 0")
+}
+```
+But it doesn't make sense, 
+1. I just want to  get an instance of  DynamicsWebApi, I have to initialize another object DynamicConnector
+2. The code is not intuitive, only after I looked at the example code, did I realized the Property dynamicsWebApi is the really interface
+3. Too much redundant code, in the constructor, it save the parameters to instance properties, then use these instance properties in callback functions
+4. Becuase of too much code, it is not easy to understand the logic. 
+the author make things mess by using class
+
+I changed the code as follow, the line count reduced from 35 to 14 lines.
+
+
+```
+
+export const getDynamicsWebApi = (tenantId: string, resource: string, clientId: string, secret: string) => {
+    const authorityUrl = `https://login.microsoftonline.com/${tenantId}/oauth2/token`;
+    const authContext = new adal.AuthenticationContext(authorityUrl);
+    const dynamicsWebApi = new DynamicsWebApi({
+        webApiUrl: `https://${resource}/api/data/v9.0/`,
+        onTokenRefresh: (callback) => authContext.acquireTokenWithClientCredentials(
+            resource,
+            clientId,
+            secret,
+            (error, token) => error ? console.log(error) : callback(token)
+            )
+    })
+    return dynamicsWebApi
+}
+
+```
+also the usage is intuitive
+```
+export async function testFunction(){
+    const api = getDynamicsWebApi('','','','')
+    const records = await api.retrieveMultiple("leads", ["fullname", "subject"], "statecode eq 0")
+}
+```
+## conculsion
+the trend is changing,  when we did c coding, we use function programming; when we did c# and java coding, everything is object.
+React team said, class make things complicated, both for computer and people. 
+well, the above example proved that.
+
+
+
+
 # initialize object with default value
 
 ## interface

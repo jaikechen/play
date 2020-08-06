@@ -19,10 +19,8 @@ export const getDynamicsWebApi = (tenantId: string, resource: string, clientId: 
             resource,
             clientId,
             secret,
-            (error, token) => {
-                console.log(token)
-                error ? console.log(error) : callback(token)
-            })
+            (error, token) => error ? console.log(error) : callback(token)
+            )
     })
     return dynamicsWebApi
 }
@@ -39,24 +37,18 @@ export class DynamicsConnector {
     adalContext: adal.AuthenticationContext;
     apiUrl: string;
     dynamicsWebApi: any;
-
-
     constructor(tenantId: string, resource: string, clientId: string, secret: string) {
-
         this.authorityUrl = `https://login.microsoftonline.com/${tenantId}/oauth2/token`;
         this.resource = `https://${resource}/`;
         this.apiUrl = resource;
         this.clientId = clientId;
         this.secrect = secret
-
         //create DynamicsWebApi object
         this.dynamicsWebApi = new DynamicsWebApi({
             webApiUrl: `https://${this.apiUrl}/api/data/v9.0/`,
             onTokenRefresh: this.acquireTokens
         });
-
         this.adalContext = new adal.AuthenticationContext(this.authorityUrl);
-
     }
 
 
