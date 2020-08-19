@@ -1,6 +1,12 @@
 
 Some thoughts/best practice/pattern on typescirpt/javascript
 
+# use global state
+# use fetch
+# dynamic Orm
+# azad react nest
+# immutable date class
+
 # Class VS Function
 
 when I was researching how to use adal to get a oauth token, then use the token to access dynamics CRM records, I got the following code from internet.
