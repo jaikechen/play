@@ -1,6 +1,9 @@
 
 Some thoughts/best practice/pattern on typescirpt/javascript
-
+# vs code tool 
+## sftp
+## exclude directory
+# deploy to azure
 # use global state
 # use fetch
 # dynamic Orm
