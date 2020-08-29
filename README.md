@@ -334,6 +334,9 @@ export function testDate1(){
 ```
 here the two console.log print different things.
 # vs code extensions 
+# ms-mssql.mssql
+no need to install the huge sql server client
+
 ## steoates.autoimport
 it can add import automatically
 ## Code Spell Checker
