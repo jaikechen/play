@@ -1,14 +1,5 @@
 
-Some thoughts/best practice/pattern on typescirpt/javascript
-# vs code tool 
-## sftp
-## exclude directory
-# deploy to azure
-# use global state
-# use fetch
-# dynamic Orm
-# azad react nest
-# immutable date class
+Some thoughts/best practice/pattern on typescript/javascript
 
 # Class VS Function
 
@@ -21,7 +12,7 @@ export class DynamicsConnector {
     authorityUrl: string;
     resource: string;
     clientId: string;
-    secrect: string;
+    secret: string;
     adalContext: adal.AuthenticationContext;
     apiUrl: string;
     dynamicsWebApi: any;
@@ -30,7 +21,7 @@ export class DynamicsConnector {
         this.resource = `https://${resource}/`;
         this.apiUrl = resource;
         this.clientId = clientId;
-        this.secrect = secret
+        this.secret = secret
         //create DynamicsWebApi object
         this.dynamicsWebApi = new DynamicsWebApi({
             webApiUrl: `https://${this.apiUrl}/api/data/v9.0/`,
@@ -50,7 +41,7 @@ export class DynamicsConnector {
                 console.log('Token has not been retrieved. Error: ' + error.stack);
             }
         }
-        this.adalContext.acquireTokenWithClientCredentials(this.resource, this.clientId, this.secrect, adalCallback)
+        this.adalContext.acquireTokenWithClientCredentials(this.resource, this.clientId, this.secret, adalCallback)
     }
 }
 ```
@@ -65,7 +56,7 @@ But it doesn't make sense,
 1. I just want to  get an instance of  DynamicsWebApi, I have to initialize another object DynamicConnector
 2. The code is not intuitive, only after I looked at the example code, did I realized the Property dynamicsWebApi is the really interface
 3. Too much redundant code, in the constructor, it save the parameters to instance properties, then use these instance properties in callback functions
-4. Becuase of too much code, it is not easy to understand the logic. 
+4. Because of too much code, it is not easy to understand the logic. 
 the author make things mess by using class
 
 I changed the code as follow, the line count reduced from 35 to 14 lines.
@@ -96,7 +87,7 @@ export async function testFunction(){
     const records = await api.retrieveMultiple("leads", ["fullname", "subject"], "statecode eq 0")
 }
 ```
-## conculsion
+## conclusion
 the trend is changing,  when we did c coding, we use function programming; when we did c# and java coding, everything is object.
 React team said, class make things complicated, both for computer and people. 
 well, the above example proved that.
@@ -107,8 +98,8 @@ well, the above example proved that.
 # initialize object with default value
 
 ## interface
-In the following example, I want create an array of cars, I created a typesript interface Car. The interface can ensure each object will have id, name, seats, drivetrain. 
-It is a smiple, safe solution, but there are some incevinence. Most of the car has 5 seats and are FWD drivertrain, I would like set seats default to 5 and drivetrain default to FWD. Interface didn't give me default value option.
+In the following example, I want create an array of cars, I created a typescript interface Car. The interface can ensure each object will have id, name, seats, drivetrain. 
+It is a simple, safe solution, but it is not convenience. Most of the car has 5 seats and are FWD drivetrain, I would like set seats default to 5 and drivetrain default to FWD. Interface didn't give me default value option.
 ```
  interface Car {
     id: number
@@ -164,7 +155,7 @@ to let a object has the default value, I have to call the constructor new Car(),
   }
 ```
 ## class with constructor
-I put all parameter to contructors
+I put all parameter to contractors
 ```
  class Car{
     constructor(
@@ -191,8 +182,8 @@ but it looked ugly when I created a car with default seats and special drivetrai
     console.log(car)
   }
 ```
-### a factory method with patial values
-her is my final solution, the factory method buildCar recieved 3 parameter, the first two one are required parameter, all the optional parameter are in the third parameter partial.
+### a factory method with partial values
+her is my final solution, the factory method buildCar received 3 parameter, the first two one are required parameter, all the optional parameter are in the third parameter partial.
 
 ```
  class Car{
@@ -247,7 +238,7 @@ Foo * f = new Foo();
 f = null;
 delete f;
 ```
-f = null and delete f are totally diffrent things.
+f = null and delete f are totally different things.
 then for C# or Java, we have no way of deleting an object(free the memory), so I think when we set obj = null, we does not remove obj from weakset. with the help of inspect, I changed the code to
 ```
 export function inspectWeakSet() {
@@ -266,12 +257,12 @@ As I expected, set obj = null, will not remove item from weakset
 - after add:WeakSet { {} }
 - after set null: WeakSet { {} }
 
-so it is a common mistake, refrencing to nothing, doesn't mean delete an object.
+so it is a common mistake, referencing to nothing, doesn't mean delete an object.
 we never know and can not take control of  when the system decide an object should be deleted.
 The fact we need not to / can't delete an object is the reason Java replace c++ , we don't need to manually manage memory.
-## a usecase of weakset
+## a use case of weakset
 the following example was given by https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakSet
-we use weakset instead of set, because we don't want change system's garbage collection machanism.
+we use weakset instead of set, because we don't want change system's garbage collection mechanism.
 ```
 // Execute a callback on everything stored inside an object
 function execRecursively(fn, subject, _refs = null){
@@ -304,21 +295,21 @@ execRecursively(obj => console.log(obj), foo);
 }
 ```
 
-# refrence in JS  
-one day, I watched a video teaching JS by refrence and value, the teacher gave an example
+# reference in JS  
+one day, I watched a video teaching JS by reference and value, the teacher gave an example
 ```
-let a = 'somestring'
+let a = 'some string'
 let b = a
 b = 'something else'
 ```
 then he said, by changing b, a also get changed.
 I was amazed, by my c# experience
 ```
-let a = 'somestring'  // a refrence to a string const
-let b = a              // b also refence to the string const 'somestring'
-b = 'something else'   // b refrence to another string const 'something else'
+let a = 'some string'  // a reference to a string const
+let b = a              // b also reference to the string const 'some string'
+b = 'something else'   // b reference to another string const 'something else'
 ```
-so no way a could be changed as well. I did a test, add console.log(a) before b='something else' and after b='something else', of course, the console print 'somestring' for both cases. then I left a comments to the teacher. he replied, strign is primitive, so a won't change. 
+so no way a could be changed as well. I did a test, add console.log(a) before b='something else' and after b='something else', of course, the console print 'some string' for both cases. then I left a comments to the teacher. he replied, string is primitive, so a won't change. 
 
 I wrote another piece of code,  the two console.log print same value.
 ```
@@ -330,7 +321,7 @@ let a = new Date()
 ```
 
 so the teacher just did not get: 
-the assign operator '=', let b refrence to another object, so it has nothing to do with a, the correct example should be
+the assign operator '=', let b reference to another object, so it has nothing to do with a, the correct example should be
 
 ```
 export function testDate1(){
@@ -341,4 +332,80 @@ export function testDate1(){
     console.log(a.getTime())
 }
 ```
-here the two console.log print diffrent things.
+here the two console.log print different things.
+# vs code extensions 
+## steoates.autoimport
+it can add import automatically
+## Code Spell Checker
+if you are using camera naming conventions, it can check spelling for each words
+## vscodevim.vim
+### map ESC to jj 
+after install the extension, press ctrl+shift+X open Extensions Bar, select Vim, select setting in the context menu.
+go to vim Handle keys, click edit in setting.json
+add the following text 
+```
+liximomo.sftp
+```
+    "vim.insertModeKeyBindings": [
+        {
+            "before": [
+                "j",
+                "j"
+            ],
+            "after": [
+                "<esc>"
+            ]
+        }
+    ],
+``` 
+### let vs code handle ctrl + c
+add the following text to setting.json
+```
+"vim.handleKeys": {
+        "<C-c>": false,
+        "<C-v>": false
+},
+```
+## liximomo.sftp
+
+the directory structure of my website is like following
+- node_modules
+- *.js
+- build/*
+
+the *.js in the root directory is the backend build
+the build/* is front end code, so my sftp configuration is like
+
+```
+[{
+    "name": "dist",
+    "host": "app.azurewebsites.windows.net",
+    "protocol": "ftp",
+    "port": 21,
+    "remotePath": "/site/wwwroot",
+    "uploadOnSave": false,
+    "context": "dist",
+    "username": "",
+    "password": ""
+},
+{
+    "name": "build",
+    "host": "app.ftp.azurewebsites.windows.net",
+    "protocol": "ftp",
+    "port": 21,
+    "remotePath": "/site/wwwroot/build",
+    "uploadOnSave": false,
+    "context":"src/client/build",
+    "username": "",
+    "password": ""
+}]
+```
+Each time I want to update frontend,  I press F1, choose SFT - UploadProject, choose project build
+Each time I want to update backend,  I press F1, choose SFT - UploadProject, choose project dist
+
+## exclude directory
+# deploy to azure
+# use global state
+# use fetch
+# dynamic Orm
+# immutable date class
