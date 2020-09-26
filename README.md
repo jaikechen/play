@@ -347,8 +347,6 @@ after install the extension, press ctrl+shift+X open Extensions Bar, select Vim,
 go to vim Handle keys, click edit in setting.json
 add the following text 
 ```
-liximomo.sftp
-```
     "vim.insertModeKeyBindings": [
         {
             "before": [
